@@ -1,2 +1,6 @@
 language: java
 jdk: openjdk11
+install:
+  - ./gradlew assemble
+script:
+  - ./gradlew check
