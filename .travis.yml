@@ -1,6 +1,17 @@
 language: java
 jdk: openjdk11
-install:
-  - ./gradlew assemble
-script:
-  - ./gradlew check
+jobs:
+  include:
+    - stage: tests
+      name: "Test Once" 
+      install:
+        - ./gradlew assemble
+      script:
+        - ./gradlew check
+    - name: "Test again (pointless, don't do this)"
+      install:
+        - ./gradlew assemble
+      script:
+        - ./gradlew check
+    - stage: deploy
+      script: echo "Pretending to deploy"
