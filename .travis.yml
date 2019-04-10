@@ -1,17 +1,25 @@
+stages:
+  - test
+  - deploy
+
 language: java
 jdk: openjdk11
 jobs:
   include:
     - stage: tests
-      name: "Test Once" 
+      name: "Test on pull request" 
       install:
         - ./gradlew assemble
       script:
         - ./gradlew check
-    - name: "Test again (pointless, don't do this)"
+      if: type = pull_request
+    - name: "Test on master"
       install:
         - ./gradlew assemble
       script:
         - ./gradlew check
+      if: branch = master
     - stage: deploy
       script: echo "Pretending to deploy"
+      if: branch = master
+

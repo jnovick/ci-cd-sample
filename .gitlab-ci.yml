@@ -1,0 +1,32 @@
+stages:
+  - test
+  - deploy
+
+image: openjdk:11-jdk
+
+test:master:
+  stage: test
+  before_script: 
+    - ./gradlew assemble
+  script:
+    - ./gradlew check
+  only:
+    - master
+
+test:branches:
+  stage: test
+  before_script: 
+    - ./gradlew assemble
+  script:
+    - ./gradlew check
+  only:
+    - branches
+  except:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Pretending to deploy"
+  only:
+    - master
