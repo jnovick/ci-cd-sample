@@ -1,32 +1,45 @@
 stages:
+  - build
   - test
   - deploy
 
-image: openjdk:11-jdk
+buildjob:
+  stage: build
+  script:
+    - ./gradlew assemble
+    artifacts:
+      paths:
+        - build/libs/*.jar
+      expire_in: 10 min
 
 test:master:
   stage: test
-  before_script: 
-    - ./gradlew assemble
+  image: openjdk:11-jdk
   script:
     - ./gradlew check
   only:
     - master
+  dependencies:
+    - buildjob
 
 test:branches:
   stage: test
-  before_script: 
-    - ./gradlew assemble
+  image: openjdk:11-jdk
   script:
     - ./gradlew check
   only:
     - branches
   except:
     - master
+  dependencies:
+    - buildjob
 
 deploy:
   stage: deploy
+  image: alpine:3.7
   script:
     - echo "Pretending to deploy"
   only:
     - master
+  dependencies: []
+
