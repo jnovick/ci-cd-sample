@@ -7,10 +7,10 @@ buildjob:
   stage: build
   script:
     - ./gradlew assemble
-    artifacts:
-      paths:
-        - build/libs/*.jar
-      expire_in: 10 min
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 10 min
 
 test:master:
   stage: test
