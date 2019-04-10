@@ -5,6 +5,7 @@ stages:
 
 buildjob:
   stage: build
+  image: openjdk:11-jdk
   script:
     - ./gradlew assemble
   artifacts:
